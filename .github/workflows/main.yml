@@ -1,0 +1,28 @@
+name: TESTING
+
+on: [push]
+
+jobs:
+  tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, intl, xml, ctype, curl, dom, fileinfo, json, libxml, mbstring, openssl, pdo, tokenizer, xml, zip, bcmath, iconv, gd, exif, pcntl, pdo_mysql, redis, imagick, xdebug
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install -n --prefer-dist
+
+      - name: Prepare environment
+        run: |
+          cp .env.ci .env
+          php artisan key:generate
+          php artisan migrate --seed
+
+      - name: Run tests
+        run: ./vendor/bin/pest
