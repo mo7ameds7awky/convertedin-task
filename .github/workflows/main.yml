@@ -12,9 +12,10 @@ jobs:
           ## Accessing to Github secrets, where you can store your configuration
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: testing_db
+          DB_HOST: 127.0.0.1
         ## map the "external" 33306 port with the "internal" 3306
         ports:
-          - 33306:3306
+          - 3306:3306
         # Set health checks to wait until mysql database has started (it takes some seconds to start)
         options: >-
           --health-cmd="mysqladmin ping"
@@ -37,9 +38,10 @@ jobs:
         env:
           DB_CONNECTION: mysql
           DB_DATABASE: testing_db
-          DB_PORT: 33306
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
           DB_USER: root
           DB_PASSWORD: password
+          run: php artisan migrate:fresh --seed
         run: |
           cp .env.ci .env
           ./vendor/bin/pest
