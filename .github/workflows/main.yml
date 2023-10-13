@@ -27,10 +27,8 @@ jobs:
         with:
           php-version: "8.2"
 
-      - name: Install dependencies
-        uses: php-actions/composer@v2
-        with:
-          args: --ignore-platform-reqs --dev --no-progress --profile --prefer-dist
+      - uses: actions/checkout@v3
+      - uses: php-actions/composer@v6
 
       - name: PHP CodeSniffer Check with Annotations
         run: |
