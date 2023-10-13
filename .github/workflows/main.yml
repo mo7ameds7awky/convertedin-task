@@ -39,9 +39,6 @@ jobs:
           php artisan cache:clear
           php artisan key:generate
           npm run build
-      - name: Directory Permissions
-        run: chmod 755 -R storage bootstrap/cache
-
       - name: PHP CodeSniffer Check with Annotations
         run: |
           ./vendor/bin/pint
