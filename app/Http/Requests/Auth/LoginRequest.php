@@ -41,8 +41,8 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember')) || ! UserSupport::isAdmin(Auth::user())) {
-            if (! UserSupport::isAdmin(Auth::user())) {
+        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+            if (Auth::user() && ! UserSupport::isAdmin(Auth::user())) {
                 Auth::guard('web')->logout();
 
                 request()->session()->invalidate();
