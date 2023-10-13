@@ -30,7 +30,7 @@ class TaskController extends Controller
             'title' => $request->get('title'),
             'description' => $request->get('description'),
             'assigned_to_id' => $request->get('assignee'),
-            'assigned_by_id' => auth()->id(),
+            'assigned_by_id' => $request->get('assigner'),
         ]);
 
         return redirect()->route('tasks.index');

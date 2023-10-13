@@ -28,6 +28,16 @@
                             @enderror
                         </div>
                         <div class="mb-6">
+                            <label for="assigner" class="block mb-2 text-sm font-medium text-red-700">Select The Assigner</label>
+                            <select id="assigner" name="assigner"
+                                    class="block p-2 w-full text-md text-black bg-gray-50 rounded-md border focus:ring-blue-500 focus:border-blue-500">
+                            </select>
+                            @error('assigner')
+                            <p class="mt-2 text-sm text-red-600"><span
+                                    class="font-medium">{{$message}}</p>
+                            @enderror
+                        </div>
+                        <div class="mb-6">
                             <label for="assignee" class="block mb-2 text-sm font-medium text-red-700">Select The Assignee</label>
                             <select id="assignee" name="assignee"
                                     class="block p-2 w-full text-md text-black bg-gray-50 rounded-md border focus:ring-blue-500 focus:border-blue-500">
@@ -68,6 +78,17 @@
             $('#assignee').select2({
                 ajax: {
                     url: '{{route('selectors.users', ['type' => 2])}}',
+                    dataType: 'json',
+                    processResults: function (data) {
+                        return {
+                            results: data.data
+                        };
+                    }
+                }
+            });
+            $('#assigner').select2({
+                ajax: {
+                    url: '{{route('selectors.users', ['type' => 1])}}',
                     dataType: 'json',
                     processResults: function (data) {
                         return {

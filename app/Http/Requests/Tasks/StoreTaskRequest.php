@@ -19,6 +19,7 @@ class StoreTaskRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'assignee' => ['required', Rule::exists('users', 'id')->where('type', UserTypeEnum::USER->value)],
+            'assigner' => ['required', Rule::exists('users', 'id')->where('type', UserTypeEnum::ADMIN->value)],
         ];
     }
 }

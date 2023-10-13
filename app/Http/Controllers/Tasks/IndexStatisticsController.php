@@ -14,8 +14,7 @@ class IndexStatisticsController extends Controller
     public function __invoke(Request $request)
     {
         $stats = StatisticsService::make()->getStats();
-        dd($stats->pluck('tasks_count'));
 
-        return view('tasks.statistics');
+        return view('tasks.statistics')->with('stats', $stats);
     }
 }

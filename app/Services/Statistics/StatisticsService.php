@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 
 class StatisticsService
 {
-    private const CACHE_MINUTES = 60;
+    private const CACHE_SECONDS = 600;
 
     public function __construct()
     {
@@ -24,13 +24,13 @@ class StatisticsService
             return Cache::get('stats');
         }
         $stats = $this->getTopTenUsers();
-        Cache::put('stats', $stats, self::CACHE_MINUTES);
+        Cache::put('stats', $stats, self::CACHE_SECONDS);
 
         return $stats;
     }
 
     private function getTopTenUsers()
     {
-        return Statistic::topTen()->get();
+        return Statistic::topTen()->get()->load('user');
     }
 }

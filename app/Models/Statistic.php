@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Queries\StatisticQueryBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Statistic extends Model
 {
@@ -13,5 +14,10 @@ class Statistic extends Model
     public function newEloquentBuilder($query): StatisticQueryBuilder
     {
         return new StatisticQueryBuilder($query);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

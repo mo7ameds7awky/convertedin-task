@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\UserTypeEnum;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 
@@ -9,8 +10,8 @@ test('login screen can be rendered', function () {
     $response->assertStatus(200);
 });
 
-test('users can authenticate using the login screen', function () {
-    $user = User::factory()->create();
+test('users can authenticate using the login screen only if he is an admin', function () {
+    $user = User::factory()->create(['type' => UserTypeEnum::ADMIN->value]);
 
     $response = $this->post('/login', [
         'email' => $user->email,
@@ -19,6 +20,17 @@ test('users can authenticate using the login screen', function () {
 
     $this->assertAuthenticated();
     $response->assertRedirect(RouteServiceProvider::HOME);
+});
+
+test('users can noy authenticate using the login screen if he is not an admin', function () {
+    $user = User::factory()->create(['type' => UserTypeEnum::USER->value]);
+
+    $response = $this->post('/login', [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertGuest();
 });
 
 test('users can not authenticate with invalid password', function () {
