@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class UserQueryBuilder extends Builder
 {
-    public function byType(?int $type = null)
+    public function byType(int $type = null)
     {
         if (! $type) {
             return $this;

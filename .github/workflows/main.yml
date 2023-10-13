@@ -1,11 +1,7 @@
 name: main
-on:
-  push:
-    branches:
-      - main
+on: [push]
 jobs:
   ci-test:
-    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     services:
       # mysql-service Label used to access the service container
@@ -30,6 +26,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
+
+      - name: Install dependencies
+        uses: php-actions/composer@v2
+        with:
+          args: --ignore-platform-reqs --dev --no-progress --profile --prefer-dist
 
       - name: PHP CodeSniffer Check with Annotations
         run: |

@@ -15,6 +15,7 @@ class IndexStatisticsController extends Controller
     {
         $stats = StatisticsService::make()->getStats();
         dd($stats->pluck('tasks_count'));
+
         return view('tasks.statistics');
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Services\Statistics;
 
-use App\Enums\UserTypeEnum;
 use App\Models\Statistic;
 use Illuminate\Support\Facades\Cache;
 
@@ -26,6 +25,7 @@ class StatisticsService
         }
         $stats = $this->getTopTenUsers();
         Cache::put('stats', $stats, self::CACHE_MINUTES);
+
         return $stats;
     }
 
