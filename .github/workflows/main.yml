@@ -34,6 +34,10 @@ jobs:
       - name: PHP CodeSniffer Check with Annotations
         run: |
           ./vendor/bin/pint
+      - name: Copy .env.ci to .env
+        run: cp .env.ci .env
+      - name: Execute migrations
+        run: php artisan migrate:fresh --seed
       - name: Execute tests (Unit and Feature tests) via Pest
         env:
           DB_CONNECTION: mysql
@@ -41,7 +45,4 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
           DB_USER: root
           DB_PASSWORD: password
-          run: php artisan migrate:fresh --seed
-        run: |
-          cp .env.ci .env
-          ./vendor/bin/pest
+        run: ./vendor/bin/pest
