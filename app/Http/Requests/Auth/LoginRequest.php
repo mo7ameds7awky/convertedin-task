@@ -42,13 +42,6 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            if (Auth::user() && ! UserSupport::isAdmin(Auth::user())) {
-                Auth::guard('web')->logout();
-
-                request()->session()->invalidate();
-
-                request()->session()->regenerateToken();
-            }
             RateLimiter::hit($this->throttleKey());
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
